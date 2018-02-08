@@ -1,18 +1,18 @@
 package gotemplater
 
+import (
+	"github.com/oxtoacart/bpool"
+	"path/filepath"
+	"html/template"
+	"log"
+	"net/http"
+	"fmt"
+)
+
 /*
 Adapted From
 https://hackernoon.com/golang-template-2-template-composition-and-how-to-organize-template-files-4cb40bcdf8f6
 */
-
-import (
-	"path/filepath"
-	"log"
-	"html/template"
-	"github.com/oxtoacart/bpool"
-	"net/http"
-	"fmt"
-)
 
 var templates map[string]*template.Template
 var bufpool *bpool.BufferPool
@@ -27,9 +27,9 @@ var mainTmpl = `{{define "main" }} {{ template "base" . }} {{ end }}`
 
 var templateConfig TemplateConfig
 
-func LoadConfiguration(subtemplates string, basedir string) {
+func LoadConfiguration(main string, subtemplates string) {
 	templateConfig.TemplateLayoutPath = subtemplates
-	templateConfig.TemplateIncludePath = basedir
+	templateConfig.TemplateIncludePath = main
 }
 
 func LoadStatic(dir string){
@@ -84,6 +84,9 @@ func RenderTemplate(w http.ResponseWriter, name string, data interface{}) {
 		http.Error(w, fmt.Sprintf("The template %s does not exist.", name),
 			http.StatusInternalServerError)
 	}
+
+	fmt.Println("Template")
+	fmt.Println(tmpl)
 
 	buf := bufpool.Get()
 	defer bufpool.Put(buf)
