@@ -40,6 +40,14 @@ func LoadConfiguration(subtemplates string, basedir string) {
 	templateConfig.TemplateIncludePath = basedir
 }
 
+func LoadStatic(dir string){
+
+	http.Handle("/img/", http.FileServer(http.Dir(dir)))
+	http.Handle("/css/", http.FileServer(http.Dir(dir)))
+	http.Handle("/js/", http.FileServer(http.Dir(dir)))
+
+}
+
 func LoadTemplates() {
 	if templates == nil {
 		templates = make(map[string]*template.Template)
