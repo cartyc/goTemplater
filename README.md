@@ -6,9 +6,12 @@ go get github.com/cartyc/gotemplater
 
 LoadConfiguration(main string, subtemplates string)
 
+
 LoadStatic(dir string)
 
+
 LoadTemplates()
+
 
 RenderTemplate(w http.ResponseWriter, name string, data interface{})
 
