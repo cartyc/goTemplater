@@ -12,7 +12,8 @@ RenderTemplate(w http.ResponseWriter, name string, data interface{})
 
 Example Usage
 
-`func test(w http.ResponseWriter, r *http.Request) {
+```
+func test(w http.ResponseWriter, r *http.Request) {
 	gotemplater.RenderTemplate(w, "test.html", nil)
 }
 
@@ -29,4 +30,5 @@ func main() {
 	http.HandleFunc("/", index)
 	http.HandleFunc("/login/", test)
 	server.ListenAndServe()
-}`
+}
+```
