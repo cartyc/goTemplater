@@ -34,6 +34,7 @@ func LoadConfiguration(main string, subtemplates string) {
 
 func LoadStatic(dir string){
 
+
 	http.Handle("/img/", http.FileServer(http.Dir(dir)))
 	http.Handle("/css/", http.FileServer(http.Dir(dir)))
 	http.Handle("/js/", http.FileServer(http.Dir(dir)))
@@ -85,8 +86,6 @@ func RenderTemplate(w http.ResponseWriter, name string, data interface{}) {
 			http.StatusInternalServerError)
 	}
 
-	fmt.Println("Template")
-	fmt.Println(tmpl)
 
 	buf := bufpool.Get()
 	defer bufpool.Put(buf)
