@@ -35,9 +35,9 @@ var mainTmpl = `{{define "main" }} {{ template "base" . }} {{ end }}`
 
 var templateConfig TemplateConfig
 
-func LoadConfiguration(main string, subtemplates string) {
+func LoadConfiguration(subtemplates string, basedir string) {
 	templateConfig.TemplateLayoutPath = subtemplates
-	templateConfig.TemplateIncludePath = main
+	templateConfig.TemplateIncludePath = basedir
 }
 
 func LoadTemplates() {
