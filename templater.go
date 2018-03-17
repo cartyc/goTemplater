@@ -1,45 +1,42 @@
-package main
+package gotemplater
 
 import (
 	"fmt"
+	"html/template"
+	"net/http"
 	"os"
 	"path/filepath"
 )
 
-func main() {
+var Templates map[string]*template.Template
 
-	GetTemplates("templates")
+// Templates Render templates
+func LoadTemplates(dir string) {
 
-}
+	Templates = make(map[string]*template.Template)
+	base := "templates/layouts/base.html"
+	err := filepath.Walk(dir, func(path string, info os.FileInfo, err error) error {
 
-func GetTemplates(path string) {
+		if err != nil {
+			return err
+		}
+		if !info.IsDir() && info.Name() != ".DS_Store" {
+			// paths = append(paths, path)
+			Templates[info.Name()] = template.Must(template.ParseFiles(base, path))
 
-	/*
-		What Do I Want here?
-		Loop over dir and find folders containing templates
-		Create Templates
-		Folder structure
-		main
-		-- group
-		-- *.html
-		- group
-		-- *.html
-		*.html
-	*/
-
-	var files []string
-	fmt.Println(path)
-
-	err := filepath.Walk(path, func(path string, info os.FileInfo, err error) error {
-		fmt.Println(path)
-		fmt.Println(info.IsDir())
-		files = append(files, path)
+		}
 		return nil
 	})
-
 	if err != nil {
-		panic(err)
+		fmt.Printf("Error: %s", err)
 	}
 
-	fmt.Println(files)
+	return
+}
+
+// LoadStatic Load static dir
+func LoadStatic(dir string) {
+
+	http.Handle("/static/", http.FileServer(http.Dir(dir)))
+
 }
